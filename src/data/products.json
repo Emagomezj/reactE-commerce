@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Tomate",
+    "category": "alimentos",
+    "description": "Tomates frescos x kg",
+    "price": 1800,
+    "pictureUrl": "https://i.ibb.co/sKvxHmb/tomate.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Plomería",
+    "category": "servicios",
+    "description": "Arreglos",
+    "price": 10000,
+    "pictureUrl": "https://i.ibb.co/8DswVFh/plomero.jpg"
+  },
+  {
+    "id": 3,
+    "title": "PC Escritorio",
+    "category": "tecnologia",
+    "description": "PC de escritorio",
+    "price": 600000,
+    "pictureUrl": "https://i.ibb.co/xjfnvnF/pc.jpg"
+  }
+]
