@@ -6,10 +6,18 @@ import ItemCount from "./ItemCount";
 import { CartContext } from "../contexts/CartContext";
 
 const ItemDetail = ({ item }) => {
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, items } = useContext(CartContext);
   const add = (quantity) => {
     addToCart(item, quantity);
   };
+
+  let prevQuantity;
+
+  if (items.find((i) => i.id === item.id)) {
+    prevQuantity = items.find((i) => i.id === item.id).quantity;
+  } else {
+    prevQuantity = 0;
+  }
 
   return (
     <Container className="mt-4">
@@ -22,7 +30,7 @@ const ItemDetail = ({ item }) => {
       <p>{item.description}</p>
       <div>{`Restantes: ${item.stock}`}</div>
       <div>{`Precio: $${item.price}`}</div>
-      <ItemCount stock={item.stock} onAdd={add} />
+      <ItemCount stock={item.stock} onAdd={add} onCart={prevQuantity} />
     </Container>
   );
 };

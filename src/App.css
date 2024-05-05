@@ -22,3 +22,16 @@
   height: 200px;
   width: auto;
 }
+
+.noProductCart {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.noProductCart h2 {
+  margin-bottom: 2rem;
+}

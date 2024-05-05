@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-const Itemquantity = ({ stock, onAdd }) => {
+const Itemquantity = ({ stock, onAdd, onCart }) => {
   const [quantity, setQuantity] = useState(1);
 
   const handleIncrease = () => {
-    if (quantity < stock) {
+    if (quantity + onCart < stock) {
       setQuantity(quantity + 1);
     }
   };
@@ -16,24 +16,45 @@ const Itemquantity = ({ stock, onAdd }) => {
   };
 
   const handleAdd = () => {
-    onAdd(quantity);
+    if (onCart < stock) {
+      onAdd(quantity);
+    } else {
+      alert("No hay más stock");
+    }
     setQuantity(1);
   };
-
-  return (
-    <>
-      <div className="d-flex">
-        <button className="inc-dec-quantity" onClick={handleDecrease}>
-          -
-        </button>
-        <div>{quantity}</div>
-        <button className="inc-dec-quantity" onClick={handleIncrease}>
-          +
-        </button>
-      </div>
-      <button onClick={handleAdd}> Agregar al carrito </button>
-    </>
-  );
+  if (onCart) {
+    return (
+      <>
+        <div>En el carrito: {onCart}</div>
+        <div className="d-flex">
+          <button className="inc-dec-quantity" onClick={handleDecrease}>
+            -
+          </button>
+          <div>{quantity}</div>
+          <button className="inc-dec-quantity" onClick={handleIncrease}>
+            +
+          </button>
+        </div>
+        <button onClick={handleAdd}> Agregar al carrito </button>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className="d-flex">
+          <button className="inc-dec-quantity" onClick={handleDecrease}>
+            -
+          </button>
+          <div>{quantity}</div>
+          <button className="inc-dec-quantity" onClick={handleIncrease}>
+            +
+          </button>
+        </div>
+        <button onClick={handleAdd}> Agregar al carrito </button>
+      </>
+    );
+  }
 };
 
 export default Itemquantity;

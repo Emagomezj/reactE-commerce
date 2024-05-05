@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 const initialValues = {
   name: "",
@@ -26,75 +33,98 @@ export const Cart = () => {
   };
 
   const handleSubmit = () => {
-    const order = {
-      buyer: values,
-      items,
-      total: total(),
-    };
-    const db = getFirestore();
-    const orders = collection(db, "orders");
-    addDoc(orders, order)
-      .then(({ id }) => {
-        if (id) {
-          alert(`Orden ${id} realizada con exito`);
-        }
-      })
-      .finally(() => {
-        clearCart();
-        setValues(initialValues);
+    if (values.name === "" || values.phone === "" || values.email === "") {
+      return alert("Debe completar todos los campos");
+    } else {
+      const order = {
+        buyer: values,
+        items,
+        total: total(),
+      };
+      const db = getFirestore();
+      //Restar las cantidadas compradas a los stocks
+      items.map((i) => {
+        const item = doc(db, "items", i.id);
+        updateDoc(item, {
+          stock: i.stock - i.quantity,
+        });
       });
+
+      const orders = collection(db, "orders");
+      addDoc(orders, order)
+        .then(({ id }) => {
+          if (id) {
+            alert(`Orden ${id} realizada con exito`);
+          }
+        })
+        .finally(() => {
+          clearCart();
+          setValues(initialValues);
+        });
+    }
   };
   const handleRemove = (id) => removeFromCart(id);
 
-  return (
-    <>
-      <div className="mt-4 d-flex justify-content-center">
-        <h1>Cart</h1>
-      </div>
+  if (items.length) {
+    return (
+      <>
+        <div className="mt-4 d-flex justify-content-center">
+          <h1>Cart</h1>
+        </div>
 
-      <div className="mt-4 d-flex justify-content-center">
-        {items.map((item) => (
-          <ul key={item.title}>
-            <li>{item.title}</li>
-            <li>{item.quantity}</li>
-            <li>{item.price}</li>
-            <li
-              style={{ cursor: "pointer" }}
-              onClick={() => handleRemove(item.id)}
-            >
-              X
-            </li>
-          </ul>
-        ))}
+        <div className="mt-4 d-flex justify-content-center">
+          {items.map((item) => (
+            <ul key={item.title}>
+              <li>{item.title}</li>
+              <li>{item.quantity}</li>
+              <li>{item.price}</li>
+              <li
+                style={{ cursor: "pointer" }}
+                onClick={() => handleRemove(item.id)}
+              >
+                X
+              </li>
+            </ul>
+          ))}
+        </div>
+        <div>total: ${total()}</div>
+        <button onClick={clearCart}>Limpiar Carrito</button>
+        <form>
+          <label>Nombre</label>
+          <input
+            type="text"
+            name="name"
+            value={values.name}
+            onChange={handleChange}
+          />
+          <label>Celular</label>
+          <input
+            type="text"
+            name="phone"
+            value={values.phone}
+            onChange={handleChange}
+          />
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+          />
+          <button type="button" onClick={handleSubmit}>
+            Terminar Compra
+          </button>
+        </form>
+      </>
+    );
+  } else {
+    return (
+      <div className="noProductCart">
+        <h2>Aún no hay productos en el carrito</h2>
+        <Link to="/">
+          <button>Volver al Inicio</button>
+        </Link>
       </div>
-      <div>total: ${total()}</div>
-      <button onClick={clearCart}>Limpiar Carrito</button>
-      <form>
-        <label>Nombre</label>
-        <input
-          type="text"
-          name="name"
-          value={values.name}
-          onChange={handleChange}
-        />
-        <label>Celular</label>
-        <input
-          type="text"
-          name="phone"
-          value={values.phone}
-          onChange={handleChange}
-        />
-        <label>Email</label>
-        <input
-          type="email"
-          name="email"
-          value={values.email}
-          onChange={handleChange}
-        />
-        <button type="button" onClick={handleSubmit}>
-          Terminar Compra
-        </button>
-      </form>
-    </>
-  );
+    );
+  }
 };
