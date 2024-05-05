@@ -10,3 +10,15 @@
 .navBrand {
   margin-right: 30px;
 }
+
+.spinnerContainer {
+  width: 100vw;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.listProductImg {
+  height: 200px;
+  width: auto;
+}

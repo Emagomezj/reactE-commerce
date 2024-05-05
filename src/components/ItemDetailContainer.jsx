@@ -1,34 +1,34 @@
 import { useEffect, useState } from "react";
-
-import Container from "react-bootstrap/Container";
+import { getFirestore, getDoc, doc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
+import { Spinner, Container } from "react-bootstrap";
 
-import data from "../data/products.json";
+import ItemDetail from "./ItemDatail";
 
 const ItemDetailContainer = () => {
-  const [product, setProduct] = useState(null);
+  const [item, setItem] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
-    const get = new Promise((resolve) => {
-      setTimeout(() => resolve(data), 2000);
-    });
-    get.then((data) => {
-      const obj = data.find((p) => p.id === Number(id));
-      //const index = Number(id) - 1;
-      setProduct(obj);
+    const db = getFirestore();
+    const refDoc = doc(db, "items", id);
+    getDoc(refDoc).then((resp) => {
+      setItem({ id: resp.id, ...resp.data() });
     });
   });
-  if (!product) return <h1>Cargando...</h1>;
-  const altString = "imagen de " + product.title;
-  return (
-    <Container className="mt-4">
-      <h1>{product.title}</h1>
-      <img src={product.pictureUrl} alt={altString} />
-      <p>{product.description}</p>
-      <p>Precio: ${product.price}</p>
-    </Container>
-  );
+  if (!item)
+    return (
+      <Container className="spinnerContainer">
+        <Spinner
+          className="mt-5 d-flex justifi-content-center"
+          animation="border"
+          role="status"
+        >
+          <span className="visually-hidden ">Loading...</span>
+        </Spinner>
+      </Container>
+    );
+  return <ItemDetail item={item} />;
 };
 
 export default ItemDetailContainer;

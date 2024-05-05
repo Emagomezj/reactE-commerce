@@ -12,7 +12,7 @@ const initialValues = {
 export const Cart = () => {
   const [values, setValues] = useState(initialValues);
 
-  const { items, clearCart } = useContext(CartContext);
+  const { items, clearCart, removeFromCart } = useContext(CartContext);
 
   const total = () => items.reduce((a, i) => a + i.quantity * i.price, 0);
 
@@ -44,6 +44,7 @@ export const Cart = () => {
         setValues(initialValues);
       });
   };
+  const handleRemove = (id) => removeFromCart(id);
 
   return (
     <>
@@ -57,10 +58,17 @@ export const Cart = () => {
             <li>{item.title}</li>
             <li>{item.quantity}</li>
             <li>{item.price}</li>
+            <li
+              style={{ cursor: "pointer" }}
+              onClick={() => handleRemove(item.id)}
+            >
+              X
+            </li>
           </ul>
         ))}
       </div>
       <div>total: ${total()}</div>
+      <button onClick={clearCart}>Limpiar Carrito</button>
       <form>
         <label>Nombre</label>
         <input
