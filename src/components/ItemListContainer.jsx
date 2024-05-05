@@ -10,7 +10,7 @@ const ItemListContainer = () => {
   const [products, setProducts] = useState([]);
   const { id } = useParams();
   useEffect(() => {
-    const get = new Promise((resolve, reject) => {
+    const get = new Promise((resolve) => {
       setTimeout(() => resolve(data), 2000);
     });
     get.then((data) => {
@@ -21,7 +21,7 @@ const ItemListContainer = () => {
         setProducts(filtered);
       }
     });
-  }, [id]);
+  });
   if (!products) return <h1>Cargando...</h1>;
   return (
     <Container className="mt-4">

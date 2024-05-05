@@ -10,7 +10,7 @@ const ItemDetailContainer = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    const get = new Promise((resolve, reject) => {
+    const get = new Promise((resolve) => {
       setTimeout(() => resolve(data), 2000);
     });
     get.then((data) => {
@@ -18,7 +18,7 @@ const ItemDetailContainer = () => {
       //const index = Number(id) - 1;
       setProduct(obj);
     });
-  }, []);
+  });
   if (!product) return <h1>Cargando...</h1>;
   const altString = "imagen de " + product.title;
   return (

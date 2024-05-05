@@ -22,8 +22,8 @@ const NavBar = () => {
           <Nav.Link to="/category/alimentos" as={NavLink}>
             Alimentos
           </Nav.Link>
-          <Nav.Link to="/category/servicios" as={NavLink}>
-            Servicios
+          <Nav.Link to="/category/indumentaria" as={NavLink}>
+            Indumentaria
           </Nav.Link>
           <Nav.Link to="/category/tecnologia" as={NavLink}>
             Tecnología

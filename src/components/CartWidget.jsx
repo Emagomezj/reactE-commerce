@@ -1,10 +1,14 @@
 import { BsCart2 } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const CartWidget = () => {
   return (
-    <div id="CartWg">
-      <BsCart2 />0
-    </div>
+    <Link id="CartWg" to="/cart">
+      <div className="d-flex">
+        <BsCart2 />
+        <span>20</span>
+      </div>
+    </Link>
   );
 };
 

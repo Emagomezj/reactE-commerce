@@ -1,3 +1,4 @@
+import { PropTypes } from "prop-types";
 import { Item } from "./Item";
 
 export const ItemList = ({ products }) => {
@@ -8,4 +9,8 @@ export const ItemList = ({ products }) => {
       ))}
     </div>
   );
+};
+
+ItemList.propTypes = {
+  products: PropTypes.array.isRequired,
 };
