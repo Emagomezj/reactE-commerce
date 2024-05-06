@@ -25,9 +25,9 @@ const Itemquantity = ({ stock, onAdd, onCart }) => {
   };
   if (onCart) {
     return (
-      <>
+      <div className="divItemCount">
         <div>En el carrito: {onCart}</div>
-        <div className="d-flex">
+        <div className="d-flex itemCount">
           <button className="inc-dec-quantity" onClick={handleDecrease}>
             -
           </button>
@@ -36,13 +36,15 @@ const Itemquantity = ({ stock, onAdd, onCart }) => {
             +
           </button>
         </div>
-        <button onClick={handleAdd}> Agregar al carrito </button>
-      </>
+        <button className="btn-add" onClick={handleAdd}>
+          Agregar al carrito
+        </button>
+      </div>
     );
   } else {
     return (
-      <>
-        <div className="d-flex">
+      <div className="divItemCount">
+        <div className="d-flex itemCount">
           <button className="inc-dec-quantity" onClick={handleDecrease}>
             -
           </button>
@@ -51,8 +53,10 @@ const Itemquantity = ({ stock, onAdd, onCart }) => {
             +
           </button>
         </div>
-        <button onClick={handleAdd}> Agregar al carrito </button>
-      </>
+        <button className="btn-add" onClick={handleAdd}>
+          Agregar al carrito
+        </button>
+      </div>
     );
   }
 };

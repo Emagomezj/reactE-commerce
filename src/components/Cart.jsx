@@ -72,13 +72,15 @@ export const Cart = () => {
           <h1>Cart</h1>
         </div>
 
-        <div className="mt-4 d-flex justify-content-center">
+        <div className="cartItem mt-4 d-flex justify-content-center">
           {items.map((item) => (
             <ul key={item.title}>
+              <img src={item.picURL} alt={item.title} />
               <li>{item.title}</li>
-              <li>{item.quantity}</li>
-              <li>{item.price}</li>
+              <li>Cantidad: {item.quantity}</li>
+              <li>${item.price}</li>
               <li
+                className="removeItemX"
                 style={{ cursor: "pointer" }}
                 onClick={() => handleRemove(item.id)}
               >
@@ -87,8 +89,10 @@ export const Cart = () => {
             </ul>
           ))}
         </div>
-        <div>total: ${total()}</div>
-        <button onClick={clearCart}>Limpiar Carrito</button>
+        <div className="cartDivTotal">Total: ${total()}</div>
+        <div className="cartLimp">
+          <button onClick={clearCart}>Limpiar Carrito</button>
+        </div>
         <form>
           <label>Nombre</label>
           <input
@@ -111,9 +115,11 @@ export const Cart = () => {
             value={values.email}
             onChange={handleChange}
           />
-          <button type="button" onClick={handleSubmit}>
-            Terminar Compra
-          </button>
+          <div className="divSubBtn">
+            <button className="submitBtn" type="button" onClick={handleSubmit}>
+              Terminar Compra
+            </button>
+          </div>
         </form>
       </>
     );

@@ -20,7 +20,7 @@ const ItemDetail = ({ item }) => {
   }
 
   return (
-    <Container className="mt-4">
+    <Container className="itemDetail mt-4">
       <h1>{item.title}</h1>
       <img
         src={item.picURL}
@@ -28,6 +28,9 @@ const ItemDetail = ({ item }) => {
         alt={item.title}
       />
       <p>{item.description}</p>
+      <div>{`Categoria: ${
+        item.categoryId[0].toUpperCase() + item.categoryId.slice(1)
+      }`}</div>
       <div>{`Restantes: ${item.stock}`}</div>
       <div>{`Precio: $${item.price}`}</div>
       <ItemCount stock={item.stock} onAdd={add} onCart={prevQuantity} />
